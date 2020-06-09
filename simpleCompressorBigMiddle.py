@@ -42,8 +42,8 @@ class Network(nn.Module):
         return (x,y)
 
 net = Network(28, 100).to(device)
-net.load_state_dict(torch.load("simpleNet.state"))
-learningRate = 0.01
+net.load_state_dict(torch.load("simpleNetBigMiddle.state"))
+learningRate = 0.001
 
 index = random.randint(0, len(mnistDataTest))
 inPic = mnistDataTest.train_data[index].float().view(1, 1, -1)
@@ -53,7 +53,8 @@ with torch.no_grad():
     cv2.imshow("original", inPic.squeeze(0).view(28,28).to("cpu").numpy())
     cv2.imshow("new", outPut)
 
-netOptim = optim.SGD(net.parameters(), lr=learningRate)
+netOptim = optim.Adam(net.parameters(), lr=learningRate)
+netOptim.load_state_dict(torch.load("simpleNetBigMiddle.optim.state"))
 
 netScheduler = optim.lr_scheduler.ReduceLROnPlateau(netOptim, patience = 5)
 
@@ -105,7 +106,7 @@ while True:
         loss = lossSum / numBatches
         print("Val Loss: "  + str(loss))
         lossArray.append(loss)
-        netScheduler.step(loss)
+        #netScheduler.step(loss)
 
     cv2.imshow("test", blank)
     k = cv2.waitKey(1)
@@ -126,3 +127,4 @@ with torch.no_grad():
 
 def doSave():
     torch.save(net.state_dict(), "simpleNetBigMiddle.state")
+    torch.save(netOptim.state_dict(), "simpleNetBigMiddle.optim.state")
