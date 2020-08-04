@@ -42,7 +42,7 @@ class Network(nn.Module):
         return (x,y)
 
 net = Network(28, 100).to(device)
-#net.load_state_dict(torch.load("simpleNetBigMiddleSigmoid.state"))
+net.load_state_dict(torch.load("simpleNetBigMiddleSigmoid.state"))
 learningRate = 0.001
 
 index = random.randint(0, len(mnistDataTest))
@@ -54,7 +54,7 @@ with torch.no_grad():
     cv2.imshow("new", outPut)
 
 netOptim = optim.Adam(net.parameters(), lr=learningRate)
-#netOptim.load_state_dict(torch.load("simpleNetBigMiddleSigmoid.optim.state"))
+netOptim.load_state_dict(torch.load("simpleNetBigMiddleSigmoid.optim.state"))
 
 netScheduler = optim.lr_scheduler.ReduceLROnPlateau(netOptim, patience = 5)
 

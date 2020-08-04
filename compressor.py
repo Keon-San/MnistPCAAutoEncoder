@@ -21,10 +21,10 @@ class Network(nn.Module):
     def __init__(self, size_of_image, compressedSize):
         super(Network, self).__init__()
         self.conv1 = nn.Conv2d(1, 16, 3, padding=1)
-        self.conv2 = nn.Conv2d(16, 4, 3, padding=1)
+        self.conv2 = nn.Conv2d(16, 8, 3, padding=1)
         self.pool = nn.MaxPool2d(2,2)
 
-        self.decode1 = nn.ConvTranspose2d(4, 16, 2, stride=2)
+        self.decode1 = nn.ConvTranspose2d(8, 16, 2, stride=2)
         self.decode2 = nn.ConvTranspose2d(16, 1, 2, stride=2)
 
     def forward(self, x):
